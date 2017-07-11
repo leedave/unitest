@@ -7,28 +7,43 @@ use PHPUnit\Framework\TestCase;
 
 class UnitestTest extends TestCase {
 
+    protected $config = "vendor/leedch/unitest/examples/example.json";
+    
     public function testRunFromPhp() 
     {
         $m = new Unitest();
-        $response = "";//$m->runFromPhp();
-        $expected = "";
-        $this->assertEquals($expected, $response);
+        $m->runFromPhp($this->config);
+        $this->assertEquals("", "");
+        //No assertion, just run to see that no exception is called
     }
 
     public function testRunFromBash() 
     {
         $m = new Unitest();
-        $response = "";//$m->runFromBash();
-        $expected = "";
-        $this->assertEquals($expected, $response);
+        $arrConfig = [
+            "",
+            $this->config
+        ];
+        $m->runFromBash($arrConfig);
+        $this->assertEquals("", "");
+        //No assertion, just run to see that no exception is called
     }
 
     public function testGenerateJsonForFile() 
     {
         $m = new Unitest();
-        $response = "";//$m->generateJsonForFile();
-        $expected = "";
-        $this->assertEquals($expected, $response);
+        $config = "vendor/leedch/unitest/examples/example.json";
+        $m->generateJsonForFile($config);
+        $filenames = [
+            "temp/tests/Leedch/Unitest/PhpclassTest.php",
+            "temp/tests/Leedch/Unitest/UnitestTest.php",
+            "temp/tests/bootstrap.php",
+            "temp/phpunit.xml",
+        ];
+        foreach ($filenames as $filename) {
+            $this->assertFileExists($filename);
+            $this->assertGreaterThan(0, filesize($filename));
+        }
     }
 
 

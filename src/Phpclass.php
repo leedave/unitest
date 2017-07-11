@@ -14,28 +14,6 @@ use Leedch\Codemonkey\Core\Project;
  */
 class Phpclass {
     
-    public function generateTestsFromConfig($pathConfig) {
-        if (!file_exists($pathConfig)) {
-            throw new Exception('Cannot find config file '.$pathConfig);
-        }
-        
-        $json = file_get_contents($pathConfig);
-        $arrFiles = json_decode($json, true);
-        foreach ($arrFiles as $className) {
-            $this->generateTestClassFromClassName($className);
-        }
-        $this->generatePhpUnitXml();
-        $this->generateBootstrap();
-        
-        $project = new Project();
-        $arrConfig = [
-            "projectname" => "Testclasses",
-        ];
-        $json = json_encode($arrConfig, JSON_UNESCAPED_UNICODE);
-        $project->loadConfigJson($json);
-        $project->returnZipFile();
-    }
-    
     /**
      * Makes a test class 
      * @param string $className the full (namespace) class name

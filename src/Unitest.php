@@ -16,6 +16,10 @@ class Unitest {
     protected $argv;
     protected $arrFiles;
 
+    /**
+     * Trigger this if you want to generate code from PHP
+     * @param string $pathConfig path to your config file
+     */
     public function runFromPhp($pathConfig) {
         try{
             $this->checkIfConfigFileExists($pathConfig);
