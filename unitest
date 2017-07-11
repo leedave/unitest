@@ -1,7 +1,10 @@
 #!/usr/bin/env php
 <?php
 //This allows unitest to be run in bash
-$composerAutoloader = __DIR__ . '/../autoload.php';
+$composerAutoloader = __DIR__ . '/../../autoload.php';
+if (!file_exists($composerAutoloader)) {
+    $composerAutoloader = __DIR__ . '/../autoload.php';
+}
 if (!file_exists($composerAutoloader)) {
     echo "\nOh crap, I can't find the composer autoloader, please check if you've "
     . "installed unitest correctly.\n\n";

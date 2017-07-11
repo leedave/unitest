@@ -3,6 +3,7 @@
 namespace Leedch\Unitest;
 
 use Exception;
+use Leedch\Unitest\Unitest;
 use Leedch\Codemonkey\Core\File;
 use Leedch\Codemonkey\Core\Project;
 
@@ -35,39 +36,19 @@ class Phpclass {
         $project->returnZipFile();
     }
     
-    protected function generatePhpUnitXml() {
-        $filename = "phpunit.xml";
-        $arrTemplates = [
-            __DIR__."/../templates/phpunit.xml.txt",
-        ];
-        //print_r($arrTemplates);die();
-        $arrTemplateAttributes = [];
-        $json = $this->generateJsonForFile($filename, $arrTemplates, $arrTemplateAttributes);
-        
-        $project = new Project();
-        $project->loadConfigJson($json);
-        $project->createFiles();
-    }
-    
-    protected function generateBootstrap() {
-        $filename = "tests/bootstrap.php";
-        $arrTemplates = [
-            __DIR__."/../templates/bootstrap.php.txt",
-        ];
-        $arrTemplateAttributes = [];
-        $json = $this->generateJsonForFile($filename, $arrTemplates, $arrTemplateAttributes);
-        
-        $project = new Project();
-        $project->loadConfigJson($json);
-        $project->createFiles();
-    }
-
-
-    protected function generateTestClassFromClassName($className) {
+    /**
+     * Makes a test class 
+     * @param string $className the full (namespace) class name
+     */
+    public function generateTestClassFromClassName($className) {
         $class = new $className();
         $this->generateTestClass($class);
     }
     
+    /**
+     * Generates a Test Class from the original class name
+     * @param type $originalClass
+     */
     public function generateTestClass($originalClass) {
         $className = get_class($originalClass);
         
@@ -91,7 +72,14 @@ class Phpclass {
         $project->createFiles();
     }
     
+    /**
+     * Create Test Methods to put in Class
+     * @param string $className
+     * @return string Methods for in Class
+     */
     protected function generateTestMethods($className) {
+        $arrClassName = explode("\\", $className);
+        $classNameNoNamespace = array_pop($arrClassName);
         $arrClassMethods = get_class_methods($className);
         $file = new File('');
         $file->addTemplate(__DIR__."/../templates/method.php.txt");
@@ -104,6 +92,7 @@ class Phpclass {
             }
             $attributes = [
                 "className" => $className,
+                "classNameNoNamespace" => $classNameNoNamespace,
                 "originalMethodName" => $methodName,
                 "methodName" => "test" . ucfirst($methodName),
             ];
@@ -140,6 +129,11 @@ class Phpclass {
         return array_pop($arrClassName)."Test.php";
     }
     
+    /**
+     * Generates a file path for a test class
+     * @param string $className full class name with namespace
+     * @return string   path for file
+     */
     protected function getFilePathForTestClass($className) {
         $arrClassName = explode("\\", $className);
         array_pop($arrClassName);
@@ -161,23 +155,13 @@ class Phpclass {
     }
 
     /**
-     * Generate JSON Code to load Codemonkey Project 
-     * 
-     * @param string $filename
-     * @param array $templates
-     * @param array $attributes
-     * @return string   JSON
+     * Simple Shortcut for Unitest::generateJsonForFile
+     * @param string $filename  filePath
+     * @param array $templates  Array of Templates
+     * @param array $attributes Array of Attributes
      */
     protected function generateJsonForFile($filename, $templates = [], $attributes = []) {
-        $arrJson = [
-            "files" => [
-                [
-                    "name" => $filename,
-                    "templates" => $templates,
-                    "attributes" => $attributes,
-                ]
-            ],
-        ];
-        return json_encode($arrJson, JSON_UNESCAPED_UNICODE);
+        $unitest = new Unitest();
+        return $unitest->generateJsonForFile($filename, $templates, $attributes);
     }
 }
