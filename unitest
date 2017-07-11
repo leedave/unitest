@@ -1,0 +1,4 @@
+#!/usr/bin/env php
+<?php
+//This allows unitest to be run in bash
+echo "TEST";
