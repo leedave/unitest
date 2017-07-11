@@ -1,4 +1,25 @@
 #!/usr/bin/env php
 <?php
 //This allows unitest to be run in bash
-echo "TEST";
+$composerAutoloader = __DIR__ . '/../autoload.php';
+if (!file_exists($composerAutoloader)) {
+    echo "\nOh crap, I can't find the composer autoloader, please check if you've "
+    . "installed unitest correctly.\n\n";
+    die();
+}
+
+require_once $composerAutoloader;
+
+echo "\n"
+. "Thanks for using unitest, you're so damn cool"
+. "\n\n";
+
+if (!class_exists('\Leedch\Unitest\Unitest')) {
+    echo "\n"
+    . "HEEeeelllp, I can't find the unitest repository, check if composer has "
+            . "been run correctly.\n\n";
+    die();
+}
+
+$unitest = new \Leedch\Unitest\Unitest();
+echo $unitest->runFromBash($argv);

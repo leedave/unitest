@@ -27,6 +27,9 @@
         "phpunit/phpunit": "^6.2",
         "leedch/codemonkey": "@dev"
     },
+    "bin": [
+        "unitest"
+    ],
     "autoload": {
         "psr-4": {
             "Leedch\\Unitest\\": "src"
