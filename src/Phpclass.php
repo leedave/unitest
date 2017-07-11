@@ -38,8 +38,9 @@ class Phpclass {
     protected function generatePhpUnitXml() {
         $filename = "phpunit.xml";
         $arrTemplates = [
-            "Unitest/phpunit.xml.txt",
+            __DIR__."/../templates/phpunit.xml.txt",
         ];
+        //print_r($arrTemplates);die();
         $arrTemplateAttributes = [];
         $json = $this->generateJsonForFile($filename, $arrTemplates, $arrTemplateAttributes);
         
@@ -51,7 +52,7 @@ class Phpclass {
     protected function generateBootstrap() {
         $filename = "tests/bootstrap.php";
         $arrTemplates = [
-            "Unitest/bootstrap.php.txt",
+            __DIR__."/../templates/bootstrap.php.txt",
         ];
         $arrTemplateAttributes = [];
         $json = $this->generateJsonForFile($filename, $arrTemplates, $arrTemplateAttributes);
@@ -69,8 +70,6 @@ class Phpclass {
     
     public function generateTestClass($originalClass) {
         $className = get_class($originalClass);
-        $classMethods = get_class_methods($className);
-        $classAttributes = get_class_vars($className);
         
         $arrTemplateAttributes = [
             "namespace" => $this->getNamespaceForTestClass($className),
@@ -81,7 +80,7 @@ class Phpclass {
         ];
         
         $arrTemplates = [
-            "Unitest/phpclass.php.txt",
+            __DIR__."/../templates/phpclass.php.txt",
         ];
         
         $filename = $this->getFileNameForTestClass($className);
@@ -90,16 +89,12 @@ class Phpclass {
         $project = new Project();
         $project->loadConfigJson($json);
         $project->createFiles();
-        
-        echo "Name: ".print_r($className, true)."<br />"
-                . "Methods: ".print_r($classMethods, true)."<br />"
-                . "Attributes: ".print_r($classAttributes, true)."<br />";
     }
     
     protected function generateTestMethods($className) {
         $arrClassMethods = get_class_methods($className);
         $file = new File('');
-        $file->addTemplate(codemonkey_pathTemplateDir . "/Unitest/method.php.txt");
+        $file->addTemplate(__DIR__."/../templates/method.php.txt");
         
         $output = "";
         

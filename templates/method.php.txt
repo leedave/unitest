@@ -1,0 +1,8 @@
+    public function {{$methodName}}() 
+    {
+        $m = new \{{$className}}();
+        $response = $m->{{$originalMethodName}}();
+        $expected = "";
+        $this->assertEquals($expected, $response);
+    }
+
