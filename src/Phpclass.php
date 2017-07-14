@@ -19,17 +19,6 @@ class Phpclass {
      * @param string $className the full (namespace) class name
      */
     public function generateTestClassFromClassName($className) {
-        $class = new $className();
-        $this->generateTestClass($class);
-    }
-    
-    /**
-     * Generates a Test Class from the original class name
-     * @param type $originalClass
-     */
-    public function generateTestClass($originalClass) {
-        $className = get_class($originalClass);
-        
         $arrTemplateAttributes = [
             "namespace" => $this->getNamespaceForTestClass($className),
             "originalClassName" => $className,

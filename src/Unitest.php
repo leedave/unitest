@@ -85,18 +85,40 @@ class Unitest {
     /**
      * Generates all the files
      * @param string $pathConfig
+     * @throws Exception
      */
     protected function generateTestsFromConfig($pathConfig) {
         $project = new Project();
         $project->clearTempFolder();
         $jsonClassList = file_get_contents($pathConfig);
         $arrClasses = json_decode($jsonClassList, true);
-        foreach ($arrClasses as $className) {
+        
+        $this->includeAutoloaders($arrClasses);
+        
+        if (!isset($arrClasses['classes'])) {
+            throw new Exception('No Classes defined');
+        }
+        foreach ($arrClasses['classes'] as $className) {
             $phpclass = new Phpclass();
             $phpclass->generateTestClassFromClassName($className);
         }
         $this->generatePhpUnitXml();
         $this->generateBootstrap();
+    }
+    
+    /**
+     * Include all the configs defined in the autoloader
+     * 
+     * @param array $arrConfig
+     */
+    protected function includeAutoloaders($arrConfig) {
+        if (!is_array($arrConfig) || !isset($arrConfig['autoloaders'])) {
+            return;
+        }
+        
+        foreach ($arrConfig['autoloaders'] as $autoloader) {
+            require_once $autoloader;
+        }
     }
     
     /**
