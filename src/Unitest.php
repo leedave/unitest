@@ -15,6 +15,7 @@ class Unitest {
     
     protected $argv;
     protected $arrFiles;
+    protected $useOldPhpunit = false;
 
     /**
      * Trigger this if you want to generate code from PHP
@@ -51,6 +52,11 @@ class Unitest {
             echo $this->bashPrintUsage();
             die();
         }
+        
+        if (!isset($argv[2]) && $argv[2] == "oldversion") {
+            $this->useOldPhpunit = true;
+        }
+        
         $pathConfig = $this->argv[1];
         
         if(!defined('codemonkey_constants')){
@@ -100,6 +106,9 @@ class Unitest {
         }
         foreach ($arrClasses['classes'] as $className) {
             $phpclass = new Phpclass();
+            if ($this->useOldPhpunit) {
+                $phpclass->setUseOldPhpunit(true);
+            }
             $phpclass->generateTestClassFromClassName($className);
         }
         $this->generatePhpUnitXml();

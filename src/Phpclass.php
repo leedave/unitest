@@ -14,6 +14,12 @@ use Leedch\Codemonkey\Core\Project;
  */
 class Phpclass {
     
+    protected $useOldPhpunit = false;
+    
+    protected function setUseOldPhpunit($bool) {
+        $this->useOldPhpunit = $bool;
+    }
+    
     /**
      * Makes a test class 
      * @param string $className the full (namespace) class name
@@ -30,6 +36,12 @@ class Phpclass {
         $arrTemplates = [
             __DIR__."/../templates/phpclass.php.txt",
         ];
+        
+        if ($this->useOldPhpunit) {
+            $arrTemplates = [
+                __DIR__."/../templates/phpclass_old.php.txt",
+            ];
+        }
         
         $filename = $this->getFileNameForTestClass($className);
         $path = $this->getFilePathForTestClass($className);

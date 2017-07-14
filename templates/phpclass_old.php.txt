@@ -1,0 +1,11 @@
+<?php
+
+{{$namespace}}
+
+use {{$originalClassName}};
+use PHPUnit_Framework_TestCase as TestCase;
+
+class {{$testClassName}} extends TestCase {
+{{$testClassAttributes}}
+{{$testClassMethods}}
+}
