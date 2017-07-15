@@ -17,7 +17,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Nothing
 
 ### Fixed
-- Nothing
+- Bug caused by old example config in tests
 
 ### Removed
 - Nothing

@@ -25,7 +25,9 @@ class UnitestTest extends TestCase {
             "",
             $this->config
         ];
+        ob_start();
         $m->runFromBash($arrConfig);
+        ob_end_clean();
         //$this->assertEquals("", "");
         $filenames = [
             "temp/tests/Leedch/Unitest/PhpclassTest.php",
