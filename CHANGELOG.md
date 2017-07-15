@@ -4,11 +4,10 @@ All Notable changes to `leech/unitest` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [0.2.0] - 2017-07-15
+## [0.*.*] - 2017-07-**
 
 ### Added
-- Create Mocks to be able to call constructor in TestClass
-- Create Mocks and Params for Method calls in TestClass
+- Added oldversion parameter in bash for old phpunit versions
 
 ### Deprecated
 - Nothing
@@ -21,6 +20,13 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing
+
+
+## [0.2.0] - 2017-07-15
+
+### Added
+- Create Mocks to be able to call constructor in TestClass
+- Create Mocks and Params for Method calls in TestClass
 
 ## [0.1.0] - 2017-07-14
 

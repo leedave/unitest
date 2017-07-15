@@ -21,7 +21,7 @@ class Phpclass {
     protected $constructorParamsCall = [];
     protected $constructorParamsDeclare = [];
     
-    protected function setUseOldPhpunit($bool) {
+    public function setUseOldPhpunit($bool) {
         $this->useOldPhpunit = $bool;
     }
     
@@ -163,7 +163,14 @@ class Phpclass {
                 continue;
             }
             if (isset($arrDetails['name']) && $arrDetails['type'] == "class") {
-                $arrReturn['declare'][] = "$".$name.' = $this->createMock(\''.$arrDetails['name'].'\');';
+                if ($this->useOldPhpunit) {
+                    //$arrReturn['declare'][] = "$".$name.' = $this->getMock(\''.$arrDetails['name'].'\');';
+                    $arrReturn['declare'][] = "$".$name.' = $this->getMockBuilder(\''.$arrDetails['name'].'\')'."\n"
+                                            ."->disableOriginalConstructor()\n"
+                                            ."->getMock();";
+                } else {
+                    $arrReturn['declare'][] = "$".$name.' = $this->createMock(\''.$arrDetails['name'].'\');';
+                }
             } elseif ($arrDetails['type'] == 'string') {
                $arrReturn['declare'][] = "$".$name.' = "";';
             } else {
