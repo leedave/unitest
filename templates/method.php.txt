@@ -1,6 +1,7 @@
     public function {{$methodName}}() 
     {
-        $m = new {{$classNameNoNamespace}}();
+        {{$constructorParamsDeclare}}
+        $m = new {{$classNameNoNamespace}}({{$constructorParamsCall}});
         $response = "";//$m->{{$originalMethodName}}();
         $expected = "";
         $this->assertEquals($expected, $response);

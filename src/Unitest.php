@@ -126,7 +126,7 @@ class Unitest {
         }
         
         foreach ($arrConfig['autoloaders'] as $autoloader) {
-            require_once $autoloader;
+            require_once codemonkey_pathRoot . $autoloader;
         }
     }
     

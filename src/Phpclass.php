@@ -3,6 +3,8 @@
 namespace Leedch\Unitest;
 
 use Exception;
+use ReflectionClass;
+use ReflectionParameter;
 use Leedch\Unitest\Unitest;
 use Leedch\Codemonkey\Core\File;
 use Leedch\Codemonkey\Core\Project;
@@ -15,6 +17,9 @@ use Leedch\Codemonkey\Core\Project;
 class Phpclass {
     
     protected $useOldPhpunit = false;
+    protected $constructParams = [];
+    protected $constructorParamsCall = [];
+    protected $constructorParamsDeclare = [];
     
     protected function setUseOldPhpunit($bool) {
         $this->useOldPhpunit = $bool;
@@ -25,6 +30,7 @@ class Phpclass {
      * @param string $className the full (namespace) class name
      */
     public function generateTestClassFromClassName($className) {
+        $this->getOriginalClassConstructorParams($className);
         $arrTemplateAttributes = [
             "namespace" => $this->getNamespaceForTestClass($className),
             "originalClassName" => $className,
@@ -32,10 +38,6 @@ class Phpclass {
             "testClassAttributes" => "",
             "testClassMethods" => $this->generateTestMethods($className),
         ];
-        
-        $class = new \ReflectionClass($className);
-        $constructor = $class->getConstructor()->getParameters();
-        var_dump($constructor);die();
         
         $arrTemplates = [
             __DIR__."/../templates/phpclass.php.txt",
@@ -56,6 +58,29 @@ class Phpclass {
     }
     
     /**
+     * Fetch Constructor params from original class and put into 
+     * this->constructParams array $paramName => ["type" => "hintName", "name" => "classname"]
+     * 
+     * @param string $className
+     */
+    protected function getOriginalClassConstructorParams($className) {
+        $class = new ReflectionClass($className);
+        $constructor = $class->getConstructor();
+        $constparams = $constructor->getParameters();
+        foreach ($constparams as $paramName) {
+            $param = new ReflectionParameter([$className, '__construct'], $paramName->name);
+            $class = $param->getClass();
+            if ($class) {
+                $this->constructParams[$paramName->name] = ["type" => "class", "name" => $class->name];
+            } else if ($param->getType()) {
+                $this->constructParams[$paramName->name] = ["type" => $param->getType()->__toString()];
+            } else {
+                $this->constructParams[$paramName->name] = ["type" => "string"];
+            }
+        }
+    }
+    
+    /**
      * Create Test Methods to put in Class
      * @param string $className
      * @return string Methods for in Class
@@ -69,6 +94,9 @@ class Phpclass {
         
         $output = "";
         
+        //Prepare code for instantiation of original class in test method
+        $this->generateCodeForInstantiation();
+        
         foreach ($arrClassMethods as $methodName) {
             if ($methodName == "__construct") {
                 continue;
@@ -78,11 +106,34 @@ class Phpclass {
                 "classNameNoNamespace" => $classNameNoNamespace,
                 "originalMethodName" => $methodName,
                 "methodName" => "test" . ucfirst($methodName),
+                "constructorParamsDeclare" => implode("\n        ", $this->constructorParamsDeclare),
+                "constructorParamsCall" => implode(", ", $this->constructorParamsCall)
             ];
             $file->addAttributes($attributes);
             $output .= $file->generateCode();
         }
         return $output;
+    }
+    
+    protected function generateCodeForInstantiation() {
+        if (count($this->constructParams) < 1) {
+            //No constructor params, return empty
+            return "";
+        }
+        
+        foreach ($this->constructParams as $name => $arrDetails) {
+            $this->constructorParamsCall[] = "$".$name;
+            if (!isset($arrDetails['type'])) {
+                continue;
+            }
+            if (isset($arrDetails['name']) && $arrDetails['type'] == "class") {
+                $this->constructorParamsDeclare[] = "$".$name.' = $this->createMock(\''.$arrDetails['name'].'\');';
+            } elseif ($arrDetails['type'] == 'string') {
+                $this->constructorParamsDeclare[] = "$".$name.' = "";';
+            } else {
+                $this->constructorParamsDeclare[] = "$".$name.' = ('.$arrDetails['type'].') "";';
+            }
+        }
     }
     
     /**
