@@ -4,7 +4,7 @@ All Notable changes to `leech/unitest` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [0.*.*] - 2017-07-**
+## [0.3.0] - 2017-07-15
 
 ### Added
 - Added oldversion parameter in bash for old phpunit versions (Magento2)
@@ -18,6 +18,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed
 - Bug caused by old example config in tests
+- Turned off output buffer in bash test
 
 ### Removed
 - Nothing
