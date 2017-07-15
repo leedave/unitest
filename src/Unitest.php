@@ -53,7 +53,7 @@ class Unitest {
             die();
         }
         
-        if (!isset($argv[2]) && $argv[2] == "oldversion") {
+        if (isset($argv[2]) && $argv[2] == "oldversion") {
             $this->useOldPhpunit = true;
         }
         

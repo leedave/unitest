@@ -33,6 +33,10 @@ class Phpclass {
             "testClassMethods" => $this->generateTestMethods($className),
         ];
         
+        $class = new \ReflectionClass($className);
+        $constructor = $class->getConstructor()->getParameters();
+        var_dump($constructor);die();
+        
         $arrTemplates = [
             __DIR__."/../templates/phpclass.php.txt",
         ];
