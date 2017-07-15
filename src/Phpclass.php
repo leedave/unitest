@@ -77,6 +77,9 @@ class Phpclass {
      */
     protected function getMethodParameters($className, $methodName) {
         $class = new ReflectionClass($className);
+        if (!method_exists($className, $methodName)) {
+            return [];
+        }
         $method = $class->getMethod($methodName);
         $params = $method->getParameters();
         

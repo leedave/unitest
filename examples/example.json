@@ -1,4 +1,9 @@
-[
-    "Leedch\\Unitest\\Phpclass",
-    "Leedch\\Unitest\\Unitest"
-]
+{
+    "autoloaders": [
+        "vendor/autoload.php"
+    ],
+    "classes": [
+        "Leedch\\Unitest\\Phpclass",
+        "Leedch\\Unitest\\Unitest"
+    ]
+}

@@ -26,15 +26,7 @@ class UnitestTest extends TestCase {
             $this->config
         ];
         $m->runFromBash($arrConfig);
-        $this->assertEquals("", "");
-        //No assertion, just run to see that no exception is called
-    }
-
-    public function testGenerateJsonForFile() 
-    {
-        $m = new Unitest();
-        $config = "vendor/leedch/unitest/examples/example.json";
-        $m->generateJsonForFile($config);
+        //$this->assertEquals("", "");
         $filenames = [
             "temp/tests/Leedch/Unitest/PhpclassTest.php",
             "temp/tests/Leedch/Unitest/UnitestTest.php",
@@ -45,6 +37,21 @@ class UnitestTest extends TestCase {
             $this->assertFileExists($filename);
             $this->assertGreaterThan(0, filesize($filename));
         }
+        //No assertion, just run to see that no exception is called
+    }
+
+    public function testGenerateJsonForFile() 
+    {
+        $m = new Unitest();
+        $configFile = "vendor/leedch/unitest/examples/example.json";
+        $file = "tests/bootstrap.php";
+        $arrTemplates = [
+            "vendor/Leedch/Unitest/templates/bootstrap.php"
+        ];
+        $arrAttributes = [];
+        $json = $m->generateJsonForFile($file, $arrTemplates, $arrAttributes);
+        $expected = '{"files":[{"name":"tests\/bootstrap.php","templates":["vendor\/Leedch\/Unitest\/templates\/bootstrap.php"],"attributes":[]}]}';
+        $this->assertEquals($json, $expected);
     }
 
 

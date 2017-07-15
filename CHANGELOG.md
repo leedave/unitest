@@ -7,7 +7,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ## [0.*.*] - 2017-07-**
 
 ### Added
-- Added oldversion parameter in bash for old phpunit versions
+- Added oldversion parameter in bash for old phpunit versions (Magento2)
+- Webloaders folder with examples for generic use and for Magento2
+- Tested functionality on Magento2 Installation
+- Example JSON File for Magento2
+- Example phpunit.xml for Magento2
 
 ### Deprecated
 - Nothing

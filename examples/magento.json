@@ -1,0 +1,9 @@
+{
+"autoloaders": [
+        "app/autoload.php"
+],
+"classes": [
+        "Vendor\\Project\\Class"
+]
+}
+
