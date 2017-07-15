@@ -1,0 +1,8 @@
+{
+"autoloaders": [
+    "customautoload.php"
+],
+"classes": [
+    "YourVendor\\YourPackage\\YourSubfolders\\YourClass"
+]
+}

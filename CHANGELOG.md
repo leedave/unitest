@@ -12,6 +12,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Tested functionality on Magento2 Installation
 - Example JSON File for Magento2
 - Example phpunit.xml for Magento2
+- Started Documentation
 
 ### Deprecated
 - Nothing

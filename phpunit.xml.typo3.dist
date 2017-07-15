@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php">
+    <testsuites>
+        <testsuite name="typo3_testing">
+            <directory suffix="Test.php">web/typo3conf/ext/project/tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory>src</directory>
+        </whitelist>
+    </filter>
+</phpunit>
+
