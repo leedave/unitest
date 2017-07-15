@@ -4,6 +4,25 @@ All Notable changes to `leech/unitest` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [0.3.1] - 2017-07-**
+
+### Added
+- Started Documentation
+- Example Files for Typo3
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
+
 ## [0.3.0] - 2017-07-15
 
 ### Added
@@ -14,18 +33,9 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 - Example phpunit.xml for Magento2
 - Started Documentation
 
-### Deprecated
-- Nothing
-
 ### Fixed
 - Bug caused by old example config in tests
 - Turned off output buffer in bash test
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
 
 
 ## [0.2.0] - 2017-07-15
