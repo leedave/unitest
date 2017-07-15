@@ -2,7 +2,8 @@
     {
         {{$constructorParamsDeclare}}
         $m = new {{$classNameNoNamespace}}({{$constructorParamsCall}});
-        $response = "";//$m->{{$originalMethodName}}();
+        {{$methodParamsDeclare}}
+        $response = "";//$m->{{$originalMethodName}}({{$methodParamsCall}});
         $expected = "";
         $this->assertEquals($expected, $response);
     }

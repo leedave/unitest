@@ -65,19 +65,34 @@ class Phpclass {
      */
     protected function getOriginalClassConstructorParams($className) {
         $class = new ReflectionClass($className);
-        $constructor = $class->getConstructor();
-        $constparams = $constructor->getParameters();
-        foreach ($constparams as $paramName) {
-            $param = new ReflectionParameter([$className, '__construct'], $paramName->name);
+        $this->constructParams = $this->getMethodParameters($className, '__construct');
+    }
+    
+    /**
+     * Get information on Method Parameters
+     * 
+     * @param string $className
+     * @param string $methodName
+     * @return array
+     */
+    protected function getMethodParameters($className, $methodName) {
+        $class = new ReflectionClass($className);
+        $method = $class->getMethod($methodName);
+        $params = $method->getParameters();
+        
+        $arrReturn = [];
+        foreach ($params as $paramDef) {
+            $param = new ReflectionParameter([$className, $methodName], $paramDef->name);
             $class = $param->getClass();
             if ($class) {
-                $this->constructParams[$paramName->name] = ["type" => "class", "name" => $class->name];
-            } else if ($param->getType()) {
-                $this->constructParams[$paramName->name] = ["type" => $param->getType()->__toString()];
+                $arrReturn[$paramDef->name] = ["type" => "class", "name" => $class->name];
+            } elseif ($param->getType()) {
+                $arrReturn[$paramDef->name] = ["type" => $param->getType()->__toString()];
             } else {
-                $this->constructParams[$paramName->name] = ["type" => "string"];
+                $arrReturn[$paramDef->name] = ["type" => "string"];
             }
         }
+        return $arrReturn;
     }
     
     /**
@@ -101,13 +116,19 @@ class Phpclass {
             if ($methodName == "__construct") {
                 continue;
             }
+            $arrMethods = $this->getMethodParameters($className, $methodName);
+            $arrParameters = $this->declareParameters($arrMethods);
+            $strMethodsDeclare = implode("\n        ", $arrParameters['declare']);
+            $strMethodsCall = implode(", ", $arrParameters['call']);
             $attributes = [
                 "className" => $className,
                 "classNameNoNamespace" => $classNameNoNamespace,
                 "originalMethodName" => $methodName,
                 "methodName" => "test" . ucfirst($methodName),
                 "constructorParamsDeclare" => implode("\n        ", $this->constructorParamsDeclare),
-                "constructorParamsCall" => implode(", ", $this->constructorParamsCall)
+                "constructorParamsCall" => implode(", ", $this->constructorParamsCall),
+                "methodParamsDeclare" => $strMethodsDeclare,
+                "methodParamsCall" => $strMethodsCall,
             ];
             $file->addAttributes($attributes);
             $output .= $file->generateCode();
@@ -115,27 +136,44 @@ class Phpclass {
         return $output;
     }
     
+    /**
+     * Prepares the __construct code for implemenation using $this->constructParams
+     * 
+     * @return void
+     */
     protected function generateCodeForInstantiation() {
-        if (count($this->constructParams) < 1) {
-            //No constructor params, return empty
-            return "";
+        $arrParams = $this->declareParameters($this->constructParams);
+        $this->constructorParamsCall = $arrParams['call'];
+        $this->constructorParamsDeclare = $arrParams['declare'];
+    }
+    
+    protected function declareParameters($arrParameters) {
+        $arrReturn = [
+            "call" => [],
+            "declare" => [],
+        ];
+        if (count($arrParameters) < 1) {
+            //No  params, return empty
+            return $arrReturn;
         }
         
-        foreach ($this->constructParams as $name => $arrDetails) {
-            $this->constructorParamsCall[] = "$".$name;
+        foreach ($arrParameters as $name => $arrDetails) {
+            $arrReturn['call'][] = "$".$name;
             if (!isset($arrDetails['type'])) {
                 continue;
             }
             if (isset($arrDetails['name']) && $arrDetails['type'] == "class") {
-                $this->constructorParamsDeclare[] = "$".$name.' = $this->createMock(\''.$arrDetails['name'].'\');';
+                $arrReturn['declare'][] = "$".$name.' = $this->createMock(\''.$arrDetails['name'].'\');';
             } elseif ($arrDetails['type'] == 'string') {
-                $this->constructorParamsDeclare[] = "$".$name.' = "";';
+               $arrReturn['declare'][] = "$".$name.' = "";';
             } else {
-                $this->constructorParamsDeclare[] = "$".$name.' = ('.$arrDetails['type'].') "";';
+                $arrReturn['declare'][] = "$".$name.' = ('.$arrDetails['type'].') "";';
             }
         }
+        return $arrReturn;
     }
-    
+
+
     /**
      * Gets the namespace from class name
      * 
