@@ -28,6 +28,8 @@ if(!defined('codemonkey_constants')){
 }
 
 $unitest = new \Leedch\Unitest\Unitest();
+//Magento uses the ancient phpunit 4
+$unitest->setUseOldPhpunit(true);
 $unitest->runFromPhp(__DIR__ . '/../unitest.json');
 
 //It is best practice to reset error handling when finished

@@ -88,6 +88,11 @@ class Unitest {
         echo $this->bashPrint($text);
     }
     
+    public function setUseOldPhpunit($bool) {
+        $bool = (bool) $bool;
+        $this->useOldPhpunit = $bool;
+    }
+    
     /**
      * Generates all the files
      * @param string $pathConfig
