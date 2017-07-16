@@ -2,7 +2,6 @@
 
 namespace Leedch\Unitest;
 
-use Exception;
 use ReflectionClass;
 use ReflectionParameter;
 use Leedch\Unitest\Unitest;
@@ -22,6 +21,7 @@ class Phpclass {
     protected $constructorParamsDeclare = [];
     
     public function setUseOldPhpunit($bool) {
+        $bool = (bool) $bool;
         $this->useOldPhpunit = $bool;
     }
     
@@ -182,7 +182,6 @@ class Phpclass {
         }
         return $arrReturn;
     }
-
 
     /**
      * Gets the namespace from class name

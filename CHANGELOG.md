@@ -4,11 +4,11 @@ All Notable changes to `leech/unitest` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [0.3.1] - 2017-07-15
+## [0.3.*] - 2017-07-16
 
 ### Added
-- Started Documentation
-- Example Files for Typo3
+- Extended Test Methods
+- Added setUseOldPhpunit to Magento Webloader
 
 ### Deprecated
 - Nothing
@@ -22,6 +22,12 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ### Security
 - Nothing
 
+
+## [0.3.1] - 2017-07-15
+
+### Added
+- Started Documentation
+- Example Files for Typo3
 
 ## [0.3.0] - 2017-07-15
 

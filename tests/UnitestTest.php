@@ -56,5 +56,15 @@ class UnitestTest extends TestCase {
         $this->assertEquals($json, $expected);
     }
 
-
+    public function testSetUseOldPhpunit() {
+        $m = new Unitest();
+        $m->setUseOldPhpunit(true);
+        $this->assertAttributeEquals(true, 'useOldPhpunit', $m);
+        $m->setUseOldPhpunit(false);
+        $this->assertAttributeEquals(false, 'useOldPhpunit', $m);
+        $m->setUseOldPhpunit(1);
+        $this->assertAttributeEquals(true, 'useOldPhpunit', $m);
+        $m->setUseOldPhpunit(0);
+        $this->assertAttributeEquals(false, 'useOldPhpunit', $m);
+    }
 }
