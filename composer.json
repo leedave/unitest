@@ -22,7 +22,7 @@
     ],
     "require": {
         "php" : "~5.6|~7.0",
-        "leedch/html": "@dev",
+        "leedch/html": "^1.0.0",
         "leedch/codemonkey": "@dev"
     },
     "require-dev": {
