@@ -21,6 +21,16 @@ You can also generate your tests into a zip using the webloader located at
 Just copy above file into your `pub` or `docroot` folder depending on your 
 server setup
 
+## If Magento 2 gets bitchy
+
+It can often be a problem, if your classes refer to classes that Magento only 
+generates in runtime. If so you can pre-compile these in Magento using the 
+following bash command
+
+```bash
+php bin/magento setup:di:compile
+```
+
 ## Running Tests
 
 Copy the phpunit.xml example for magento to your magento root folder and run:
