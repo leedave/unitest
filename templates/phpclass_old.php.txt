@@ -8,4 +8,45 @@ use PHPUnit_Framework_TestCase as TestCase;
 class {{$testClassName}} extends TestCase {
 {{$testClassAttributes}}
 {{$testClassMethods}}
+
+/*
+Examples
+
+    //Fetch Class function
+    protected function getClass()
+    {
+        //Plain Mock
+        $scopeConfigMock = $this->getMockBuilder(\Magento\Framework\App\Config\ScopeConfigInterface::class)
+               ->disableOriginalConstructor()
+               ->getMock();
+       
+        //Added Methods, with returned Mock Element
+        $context = $this->getMockBuilder('Magento\Framework\App\Helper\Context')
+                        ->disableOriginalConstructor()
+                        ->getMock();
+        $context->method('getScopeConfig')->willReturn($scopeConfigMock);
+        
+        //Added Method with different Input Values, use callback Function to simulate return
+        $scopeConfigMock
+                ->expects(static::any())
+                ->method('getValue')
+                ->will($this->returnCallback([$this, 'scopeConfigCallBack']));
+
+        $m = new Data($context);
+        return $m;
+    }
+
+    //Callback needs to be public
+    public function scopeConfigCallBack($foo)
+    {
+        if ($foo === 'arcmedia_importproducts/general/password_protected') {
+            return true;
+        }
+        if ($foo === 'arcmedia_importproducts/general/password') {
+            return 'VD4FzppNNgWqURNqKHmnOc1V0p3DywY6NJ7i3cx30';
+        }
+        return "No Response set for: ".$foo."\n";
+    }
+
+*/
 }
