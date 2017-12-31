@@ -4,11 +4,12 @@ All Notable changes to `leech/unitest` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [0.3.*] - 2017-07-16
+## [1.0.0] - 2017-07-17
 
 ### Added
 - Extended Test Methods
 - Added setUseOldPhpunit to Magento Webloader
+- Updated Documentation
 
 ### Deprecated
 - Nothing

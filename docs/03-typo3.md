@@ -7,7 +7,7 @@ run tests. You may also need to set an env variable for phpunit to work
 
 ```bash
 composer require typo3/testing-framework
-TYPO3_PATH_ROOT='/home/vagrant/public_html/myproject.com/web/'
+export TYPO3_PATH_ROOT='/home/vagrant/public_html/myproject.com/web/'
 ```
 
 There is an example phpunit.xml file for Typo3 Installations (ver. 8+) in this 
